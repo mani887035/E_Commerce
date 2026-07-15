@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiShoppingCart, FiEye, FiHeart } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import StarRating from './StarRating';
@@ -6,6 +6,7 @@ import { formatPrice } from '../utils/currency';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   const discount = product.originalPrice && product.originalPrice > product.price
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
@@ -13,7 +14,11 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="product-card animate-fade-up">
-      <Link to={`/products/${product._id}`} className="product-image-wrapper">
+      <div
+        className="product-image-wrapper"
+        onClick={() => navigate(`/products/${product._id}`)}
+        style={{ cursor: 'pointer' }}
+      >
         <img src={product.image} alt={product.name} loading="lazy" />
         {product.isFeatured && (
           <div className="product-badge">
@@ -24,14 +29,18 @@ const ProductCard = ({ product }) => {
           <div className="product-discount">-{discount}%</div>
         )}
         <div className="product-actions">
-          <Link to={`/products/${product._id}`} className="product-action-btn" title="View details">
+          <button
+            className="product-action-btn"
+            title="View details"
+            onClick={(e) => { e.stopPropagation(); navigate(`/products/${product._id}`); }}
+          >
             <FiEye />
-          </Link>
+          </button>
           <button className="product-action-btn" title="Wishlist">
             <FiHeart />
           </button>
         </div>
-      </Link>
+      </div>
 
       <div className="product-info">
         <div className="product-category">{product.category}</div>
