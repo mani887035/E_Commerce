@@ -24,7 +24,7 @@ const RegisterPage = () => {
       toast.success('Account created! Welcome to ShopNova 🎉');
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed');
+      toast.error(err?.message || 'Registration failed');
     } finally {
       setLoading(false);
     }

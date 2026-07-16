@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
-import { FiUser, FiPackage, FiSettings, FiLogOut, FiEdit2, FiCheck } from 'react-icons/fi';
+import { FiUser, FiPackage, FiSettings, FiLogOut, FiCheck } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
-import { getMyOrders, updateProfile } from '../services/api';
+import { getMyOrders } from '../services/api';
 import { formatPrice } from '../utils/currency';
 import Loader from '../components/Loader';
 import toast from 'react-hot-toast';
 
 const ProfilePage = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, updateUserProfile } = useAuth();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const activeTab = searchParams.get('tab') || 'profile';
@@ -38,9 +38,9 @@ const ProfilePage = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      await updateProfile({ name, email });
+      updateUserProfile({ name, email });
       toast.success('Profile updated!');
-    } catch (err) {
+    } catch {
       toast.error('Failed to update profile');
     } finally {
       setSaving(false);

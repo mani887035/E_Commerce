@@ -54,13 +54,13 @@ const ProductDetailPage = () => {
     if (!user) { navigate('/login'); return; }
     try {
       setSubmittingReview(true);
-      await createReview(id, { rating: reviewRating, comment: reviewComment });
+      await createReview(id, { rating: reviewRating, comment: reviewComment, name: user.name });
       toast.success('Review submitted!');
       setReviewComment('');
       const { data } = await getProductById(id);
       setProduct(data);
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to submit review');
+      toast.error(err?.message || 'Failed to submit review');
     } finally {
       setSubmittingReview(false);
     }

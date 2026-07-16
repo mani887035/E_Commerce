@@ -71,7 +71,7 @@ const CheckoutPage = () => {
       setStep(2);
       toast.success('Order placed successfully!');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to place order');
+      toast.error(err?.message || 'Failed to place order');
     } finally {
       setLoading(false);
     }
